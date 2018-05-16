@@ -224,7 +224,7 @@ namespace Jitter.Collision
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
         #region public override bool Raycast(JVector rayOrigin, JVector rayDirection, out JVector normal,out float fraction)
-        public override bool Raycast(JVector rayOrigin, JVector rayDirection, RaycastCallback raycast, out RigidBody body, out JVector normal, out float fraction)
+        public override bool Raycast(JVector rayOrigin, JVector rayDirection, RaycastCallback raycast, int layerMask, out RigidBody body, out JVector normal, out float fraction)
         {
             body = null; normal = JVector.Zero; fraction = float.MaxValue;
 
@@ -239,7 +239,7 @@ namespace Jitter.Collision
                     SoftBody softBody = e as SoftBody;
                     foreach (RigidBody b in softBody.VertexBodies)
                     {
-                        if (this.Raycast(b, rayOrigin, rayDirection, out tempNormal, out tempFraction))
+                        if (this.Raycast(b, rayOrigin, rayDirection, layerMask, out tempNormal, out tempFraction))
                         {
                             if (tempFraction < fraction && (raycast == null || raycast(b, tempNormal, tempFraction)))
                             {
@@ -255,7 +255,7 @@ namespace Jitter.Collision
                 {
                     RigidBody b = e as RigidBody;
 
-                    if (this.Raycast(b, rayOrigin, rayDirection, out tempNormal, out tempFraction))
+                    if (this.Raycast(b, rayOrigin, rayDirection, layerMask, out tempNormal, out tempFraction))
                     {
                         if (tempFraction < fraction && (raycast == null || raycast(b, tempNormal, tempFraction)))
                         {
@@ -279,10 +279,11 @@ namespace Jitter.Collision
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
         #region public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out float fraction)
-        public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out float fraction)
+        public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, int layerMask, out JVector normal, out float fraction)
         {
             fraction = float.MaxValue; normal = JVector.Zero;
 
+            if (((1 << body.Shape.Layer) & layerMask) == 0) return false;
             if (!body.BoundingBox.RayIntersect(ref rayOrigin, ref rayDirection)) return false;
 
             if (body.Shape is Multishape)

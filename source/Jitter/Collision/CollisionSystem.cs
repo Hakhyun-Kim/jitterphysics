@@ -582,14 +582,14 @@ namespace Jitter.Collision
         /// against rays (rays are of infinite length). They are checked against segments
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
-        public abstract bool Raycast(JVector rayOrigin, JVector rayDirection, RaycastCallback raycast, out RigidBody body, out JVector normal,out float fraction);
+        public abstract bool Raycast(JVector rayOrigin, JVector rayDirection, RaycastCallback raycast, int layerMask, out RigidBody body, out JVector normal,out float fraction);
 
         /// <summary>
         /// Raycasts a single body. NOTE: For performance reasons terrain and trianglemeshshape aren't checked
         /// against rays (rays are of infinite length). They are checked against segments
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
-        public abstract bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out float fraction);
+        public abstract bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, int layerMask, out JVector normal, out float fraction);
 
 
         /// <summary>

@@ -89,6 +89,11 @@ namespace Jitter.Collision.Shapes
         public JBBox BoundingBox { get { return boundingBox; } }
 
         /// <summary>
+        /// Allows to set a layer to the shape
+        /// </summary>
+        public int Layer { get; set; } = 1;
+
+        /// <summary>
         /// Allows to set a user defined value to the shape.
         /// </summary>
         public object Tag { get; set; }
